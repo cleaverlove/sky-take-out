@@ -35,7 +35,7 @@ public class ShopController {
     /**
      * 获取店铺的营业状态
      * @return
-     */
+     */ 
     @GetMapping("/stauts")
     @ApiOperation("获取店铺的营业状态")
     public Result<Integer> getStatus() {
