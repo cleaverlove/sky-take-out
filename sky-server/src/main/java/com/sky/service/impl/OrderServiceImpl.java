@@ -25,6 +25,7 @@ import com.sky.websocket.WebSocketServer;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -268,5 +269,24 @@ public class OrderServiceImpl implements OrderService {
         orderStatisticsVO.setConfirmed(confirmed);
         orderStatisticsVO.setDeliveryInProgress(deliveryInProgress);
         return orderStatisticsVO;
+    }
+
+    /**
+     * 订单详情
+     *
+     * @param id
+     * @return
+     */
+    public OrderVO details(Long id) {
+        //
+        Orders orders = orderMapper.getById(id);
+        String orderDishes = orders.getAddress();
+
+        List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(id);
+        OrderVO orderVo = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVo);
+        orderVo.setOrderDishes(orderDishes);
+        orderVo.setOrderDetailList(orderDetails);
+        return orderVo;
     }
 }
